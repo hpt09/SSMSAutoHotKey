@@ -1,5 +1,5 @@
 ﻿SetTitleMatchMode, REGEX
-#IfWinActive, Remote
+#IfWinActive, SQL
 
 ; Capitalize
 
@@ -60,6 +60,9 @@ return
 ::if::
 Send, IF%A_Space%
 return
+::else::
+Send, ELSE%A_Space%
+return
 ::exists::
 Send, EXISTS%A_Space%
 return
@@ -75,6 +78,30 @@ return
 ::end::
 Send, END%A_Space%
 return
+::order by::
+Send, ORDER BY%A_Space%
+return
+::asc::
+Send, ASC%A_Space%
+return
+::desc::
+Send, DESC%A_Space%
+return
+::group by::
+Send, GROUP BY%A_Space%
+return
+::exec::
+Send, EXEC%A_Space%
+return
+::case::
+Send, CASE%A_Space%
+return
+::when::
+Send, WHEN%A_Space%
+return
+::then::
+Send, THEN%A_Space%
+return
 
 ; Common Phrase
  
@@ -86,8 +113,16 @@ return
 Send, INNER JOIN%A_Space%
 return
 
+::lj::
+Send, LEFT JOIN%A_Space%
+return
+
 ::bt::
 Send, BEGIN TRAN{enter}{enter}{enter}{enter}ROLLBACK{up}{up}
+return
+
+::om::
+Send, INNER JOIN oe.ObjectMark ON ObjectMark.ObjectID = Vehicle.VehicleID {enter}INNER JOIN oe.Mark ON Mark.MarkID = ObjectMark.MarkID
 return
 
 
@@ -100,11 +135,18 @@ Send, +{Home}
 Send, ^e
 return
 
+
+
 ; Open Stored Proc/Functions
 
 ^4::
+Send, ^w
+Send, {right}
+Send, ^+{left}^+{left}^+{left}
+SavedClip := ClipboardAll
 Send, ^c
 Send, {F8}
 Send, %clipboard%
 Send, {AppsKey}y
+Clipboard := SavedClip
 return
